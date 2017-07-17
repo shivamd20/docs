@@ -1,19 +1,14 @@
-.. meta::
-   :description: Part 1 of a set of learning exercises meant for exploring Hasura in detail. This pre-requisite part deals with creating a Hasura project.
-   :keywords: hasura, getting started, step 1
-
 ==========================
 Part I: Creating a project
 ==========================
 
-
 Let's start by creating a project:
 
-#. Create an account at `Hasura Project Dashboard`_
+#. Create an account on `beta.hasura.io <https://beta.hasura.io>`_
 #. Click on create a project
 
    * Choose an infrastructure provider (*DigitalOcean or a 7 day preview project hosted by Hasura*)
-   * Enter your provider's API tokens (* in the case where the free trial option is not chosen*)
+   * Enter your provider's API tokens
 
 #. Your project will be ready in 10-20 mins, and you'll get an email with login credentials
 
@@ -61,7 +56,7 @@ Admin user
 
 The ``admin`` user is a special user who can manage the project. The credentials for the ``admin`` user are sent in an email after the project creation is completed. In case of local setup, the password for the admin user is ``password``. You can use these credentials to login to the console.
 
-.. note:: Every project gets its own ``admin`` user. `Hasura Project Dashboard`_ is the dashboard where you can create multiple projects. Login credentials that are generated for your project (and sent to you via email) have nothing to do with the login credentials of `Hasura Project Dashboard`_
+.. note:: Every project gets its own ``admin`` user. `beta.hasura.io <beta.hasura.io>`_ is the dashboard where you can create multiple projects. Login credentials that are generated for your project (and sent to you via email) have nothing to do with the login credentials of `beta.hasura.io <beta.hasura.io>`_ .
 
 Admin token
 ^^^^^^^^^^^

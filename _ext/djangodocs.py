@@ -6,17 +6,14 @@ import os
 import re
 
 from docutils import nodes
-from docutils.parsers.rst import Directive, directives
+from docutils.parsers.rst import directives
 from sphinx import addnodes
 from sphinx.builders.html import StandaloneHTMLBuilder
 from sphinx.domains.std import Cmdoption
+from sphinx.util.compat import Directive
 from sphinx.util.console import bold
 from sphinx.util.nodes import set_source_info
-
-try:
-    from sphinx.writers.html import SmartyPantsHTMLTranslator as HTMLTranslator
-except ImportError:  # Sphinx 1.6+
-    from sphinx.writers.html import HTMLTranslator
+from sphinx.writers.html import SmartyPantsHTMLTranslator
 
 # RE for option descriptions without a '--' prefix
 simple_option_desc_re = re.compile(
@@ -66,8 +63,6 @@ def setup(app):
                  man=(visit_snippet_literal, depart_snippet_literal),
                  text=(visit_snippet_literal, depart_snippet_literal),
                  texinfo=(visit_snippet_literal, depart_snippet_literal))
-    app.set_translator('djangohtml', DjangoHTMLTranslator)
-    app.set_translator('json', DjangoHTMLTranslator)
     return {'parallel_read_safe': True}
 
 
@@ -229,7 +224,7 @@ class VersionDirective(Directive):
         return ret
 
 
-class DjangoHTMLTranslator(HTMLTranslator):
+class DjangoHTMLTranslator(SmartyPantsHTMLTranslator):
     """
     Django-specific reST to HTML tweaks.
     """
@@ -250,7 +245,8 @@ class DjangoHTMLTranslator(HTMLTranslator):
         self.first_param = 1
         self.optional_param_level = 0
         self.param_separator = node.child_text_separator
-        self.required_params_left = sum(isinstance(c, addnodes.desc_parameter) for c in node.children)
+        self.required_params_left = sum([isinstance(c, addnodes.desc_parameter)
+                                         for c in node.children])
 
     def depart_desc_parameterlist(self, node):
         self.body.append(')')
@@ -289,7 +285,7 @@ class DjangoHTMLTranslator(HTMLTranslator):
         old_ids = node.get('ids', [])
         node['ids'] = ['s-' + i for i in old_ids]
         node['ids'].extend(old_ids)
-        super().visit_section(node)
+        SmartyPantsHTMLTranslator.visit_section(self, node)
         node['ids'] = old_ids
 
 
@@ -309,18 +305,14 @@ class DjangoStandaloneHTMLBuilder(StandaloneHTMLBuilder):
     name = 'djangohtml'
 
     def finish(self):
-        super().finish()
+        super(DjangoStandaloneHTMLBuilder, self).finish()
         self.info(bold("writing templatebuiltins.js..."))
         xrefs = self.env.domaindata["std"]["objects"]
         templatebuiltins = {
-            "ttags": [
-                n for ((t, n), (k, a)) in xrefs.items()
-                if t == "templatetag" and k == "ref/templates/builtins"
-            ],
-            "tfilters": [
-                n for ((t, n), (k, a)) in xrefs.items()
-                if t == "templatefilter" and k == "ref/templates/builtins"
-            ],
+            "ttags": [n for ((t, n), (l, a)) in xrefs.items()
+                      if t == "templatetag" and l == "ref/templates/builtins"],
+            "tfilters": [n for ((t, n), (l, a)) in xrefs.items()
+                         if t == "templatefilter" and l == "ref/templates/builtins"],
         }
         outfilename = os.path.join(self.outdir, "templatebuiltins.js")
         with open(outfilename, 'w') as fp:

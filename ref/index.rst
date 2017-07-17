@@ -1,6 +1,8 @@
-.. meta::
-   :description: Homepage for Hasura's reference documentation. List of topics, components and resources.
-   :keywords: hasura, docs, reference home, reference, ref home, ref
+.. Hasura Platform documentation master file, created by
+   sphinx-quickstart on Thu Jun 30 19:38:30 2016.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
 
 .. _reference:
 
@@ -12,12 +14,11 @@ This is the reference documentation of the entire Hasura platform
 .. toctree::
   :maxdepth: 2
 
-  creating-a-project/index
-  architecture/index
-  hasura-microservices/index
-  custom-microservices/index
-  cli/index
-  SDKs/index
-  project-configuration-and-status/index
-  domains-and-api-gateway/index
-  project-export-and-import/index
+  data/index
+  auth/index
+  custom-services/index
+  api-gateway/index
+  android/index
+  iOS/index
+  tooling/index
+  production-guidelines/index

@@ -1,5 +1,3 @@
-:orphan:
-
 SSH/git-push timeout
 ====================
 

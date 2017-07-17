@@ -1,6 +1,0 @@
-sphinx
-beautifulsoup4
-algoliasearch
-jinja2
-sphinx-autobuild
-sphinxcontrib-fulltoc

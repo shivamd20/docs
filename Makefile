@@ -5,8 +5,7 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         =
-BUILDDIR      ?= _build
-BUILDVERSION  ?= "x.y"
+BUILDDIR      = _build
 
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
@@ -49,43 +48,11 @@ help:
 clean:
 	rm -rf $(BUILDDIR)/*
 
-.PHONY: release-images
-release-images:
-	cp -r img/* $(BUILDDIR)/html/_images/
-	@echo "Image copy finished. The images are in $(BUILDDIR)/html/_images"
-
 .PHONY: html
 html:
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) -D version=$(BUILDVERSION) -D release=$(BUILDVERSION) -A latest_docs_version="0.13" $(BUILDDIR)/html
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
-
-.PHONY: html-images
-html-images: html release-images
-
-.PHONY: build-release
-build-release: clean
-	script/generate-images.sh
-
-# Function to check whether a particular variable is set or not
-
-check_defined = \
-								$(strip $(foreach 1,$1, \
-								$(call __check_defined,$1,$(strip $(value 2)))))
-
-__check_defined = \
-									$(if $(value $1),, \
-									$(error Undefined $1$(if $2, ($2))))
-
-.PHONY: algolia_index
-algolia_index:
-	# Checking if all the variables are available
-	$(call check_defined, ALGOLIA_APPLICATION_ID)
-	$(call check_defined, ALGOLIA_SEARCH_KEY)
-	$(call check_defined, ALGOLIA_ADMIN_KEY)
-
-	export ALGOLIA_APPLICATION_ID=${ALGOLIA_APPLICATION_ID} ALGOLIA_SEARCH_KEY=${ALGOLIA_SEARCH_KEY} ALGOLIA_ADMIN_KEY=${ALGOLIA_ADMIN_KEY}
-	python ./algolia_index/algolia_index.py _build/algolia_index/index.json
-
 
 .PHONY: dirhtml
 dirhtml:
@@ -259,7 +226,4 @@ dummy:
 
 watch:
 	inotifywait -q -m --recursive -e modify -e move -e create -e delete \
-    --exclude $(BUILDDIR)/* . | while read; do $(MAKE) html; done
-
-livehtml:
-	sphinx-autobuild -b html -i "$(BUILDDIR)/*" $(ALLSPHINXOPTS) $(BUILDDIR)/html
+    --exclude $(BUILDDIR) . | while read; do $(MAKE) html; done
