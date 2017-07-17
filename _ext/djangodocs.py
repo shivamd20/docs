@@ -228,7 +228,7 @@ class VersionDirective(Directive):
         return ret
 
 
-class DjangoHTMLTranslator(SmartyPantsHTMLTranslator):
+class DjangoHTMLTranslator(HTMLTranslator):
     """
     Django-specific reST to HTML tweaks.
     """
