@@ -48,11 +48,34 @@ help:
 clean:
 	rm -rf $(BUILDDIR)/*
 
+.PHONY: release-images
+release-images:
+	cp -r img/* $(BUILDDIR)/html/_images/
+	@echo "Image copy finished. The images are in $(BUILDDIR)/html/_images"
+
 .PHONY: html
 html:
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
-	@echo
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) -D version=$(BUILDVERSION) -D release=$(BUILDVERSION) -A latest_docs_version="0.13" $(BUILDDIR)/html
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+
+.PHONY: html-images
+html-images: html release-images
+
+.PHONY: build-release
+build-release: clean
+	script/generate-images.sh
+
+# Function to check whether a particular variable is set or not
+
+check_defined = \
+								$(strip $(foreach 1,$1, \
+								$(call __check_defined,$1,$(strip $(value 2)))))
+
+__check_defined = \
+									$(if $(value $1),, \
+									$(error Undefined $1$(if $2, ($2))))
+
+
 
 .PHONY: dirhtml
 dirhtml:
