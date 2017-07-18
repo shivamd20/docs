@@ -17,6 +17,9 @@
 {%- endmacro %}
 
 {% block extrahead %}
+  {%- if version != latest_docs_version %}
+    <link ref="canonical" href="https://docs.hasura.io/{{latest_docs_version}}/{{pagename}}.html" />
+  {% endif %}
 {# When building htmlhelp (CHM format) disable jQuery inclusion, #}
 {# as it causes problems in compiled CHM files.                  #}
 {% if builder != "htmlhelp" %}
