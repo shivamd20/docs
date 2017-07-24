@@ -629,8 +629,9 @@ p
   width: 90%;
   margin-bottom: 30px;
   text-align: center;
-  min-height: 450px;
-  max-height: 450px;
+  min-height: 385px;
+  max-height: 385px;
+  overflow: auto;
   background-color: #fff;
   -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.2);
   -moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.2);
@@ -674,6 +675,14 @@ p
 .guides_list_wrapper
 {
   padding: 0 15px;
+}
+.guides_list_wrapper .subhead_wrapper_minheight
+{
+  min-height: 50px;
+}
+.guides_list_wrapper .small_content
+{
+  min-height: 90px;
 }
 .guides_list_wrapper .tags_wrapper
 {
