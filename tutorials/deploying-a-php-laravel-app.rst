@@ -102,7 +102,20 @@ Change `DB_HOST` to `localhost`. The original value would have been `postgres.ha
 
    DB_HOST=localhost
 
+Step 3: Run your database migrations
+------------------------------------
+Make sure that the tunnel to your database is on (Step 1) and then run:
+
+.. code::
+
+   php artisan migrate
+
 Step 3: Run `php artisan serve`!
 --------------------------------
+
+.. code::
+
+   php artisan serve
+
 
 And everything works. :)
