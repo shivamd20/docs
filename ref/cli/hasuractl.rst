@@ -23,7 +23,7 @@ Installation
 
 .. code::
 
-    curl -Lo hasuractl https://storage.googleapis.com/hasuractl/v0.1.7/linux-amd64/hasuractl && chmod +x hasuractl && sudo mv hasuractl /usr/local/bin/
+    $ curl -Lo hasuractl https://storage.googleapis.com/hasuractl/v0.1.7/linux-amd64/hasuractl && chmod +x hasuractl && sudo mv hasuractl /usr/local/bin/
 
 Feel free to leave off the ``sudo mv hasuractl /usr/local/bin`` if you would like to add hasuractl to your path manually
 
@@ -31,6 +31,37 @@ Feel free to leave off the ``sudo mv hasuractl /usr/local/bin`` if you would lik
 
 .. code::
 
-    curl -Lo hasuractl https://storage.googleapis.com/hasuractl/v0.1.7/darwin-amd64/hasuractl && chmod +x hasuractl && sudo mv hasuractl /usr/local/bin/
+    $ curl -Lo hasuractl https://storage.googleapis.com/hasuractl/v0.1.7/darwin-amd64/hasuractl && chmod +x hasuractl && sudo mv hasuractl /usr/local/bin/
 
 Feel free to leave off the ``sudo mv hasuractl /usr/local/bin`` if you would like to add hasuractl to your path manually
+
+NOTE:
+-----
+
+- If you are on windows, you should only use git-bash to execute commands that you see in this documentation.
+- If you already have hasuractl installed, replace the old binary with the new one.
+
+Starting hasura
+===============
+
+1. Create an account on `beta.hasura.io <https://beta.hasura.io>`_ if you do not have one.
+
+2. Run:
+
+.. code::
+
+   $ hasuractl login
+
+3. Set context: 
+
+   You will need to create a Hasura project for the next step. You can do that
+   at `dashboard.hasura.io <https://dashboard.hasura.io/projects>`_.
+
+   Set your project context using 
+
+.. code::
+
+   $ hasuractl set-context <project-name>
+
+Here <project-name> is the name of the project you created on the Hasura
+Dashboard. This command also sets the Kubernetes context.
