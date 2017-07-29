@@ -131,7 +131,7 @@ You can use the following command to install glide in order to install vendor pa
     $ curl https://glide.sh/get | sh
 
 Step 2: Install vendor packages using glide! 
------------------------------
+--------------------------------------------
 
 Now use glide install in your project directory to install vendor packages locally!
 
@@ -140,7 +140,7 @@ Now use glide install in your project directory to install vendor packages local
     $ glide install
 
 Step 3: Build and Run your app locally! 
------------------------------
+---------------------------------------
 
 Now use go build -a app/main.go to build and ./main in your project directory to run your app locally!
 
