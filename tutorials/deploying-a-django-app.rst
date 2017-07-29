@@ -32,8 +32,8 @@ Follow the 4 steps below so that you can start off and deploy a Django app
 within minutes. Refer to the next section on :ref:`local-development`, to connect to
 the Postgres database when you're developing and testing locally.
 
-Step 1: Get a hasura project and set up `hasuractl`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Step 1: Get a hasura project
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Sign up on http://dashboard.hasura.io and get yourself a Hasura project.
 Creating a hasura project will give you a domain. Something like: `project42.hasura-app.io`
