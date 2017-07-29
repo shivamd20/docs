@@ -20,7 +20,6 @@ Benefits of using Hasura to deploy and host your Laravel app:
 
 1. A Hasura project comes with a pre-configured Postgres that's ready to be used
 2. `git push hasura master` inside your go-iris app will deploy your application to your server
-3. Migrations are automatically handled whenever you update and deploy your application to the server!
 
 Basic deployment
 ----------------
