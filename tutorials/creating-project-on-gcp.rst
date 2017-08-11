@@ -10,7 +10,7 @@ Creating a Hasura project on Google Cloud Platform
 ==================================================
 
 .. rst-class:: featured-image
-.. image:: ../img/hasura-features-video.png
+.. image:: ../img/GCP-installation-featured.png
    :height: 0px
    :width: 0px
 
