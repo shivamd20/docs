@@ -66,7 +66,7 @@ You need to configure the following option on the Hasura Project Console:
 SMS
 ---
 
-Either Twilio or MSG91 can be configured and enabled to send SMS.
+Twilio, MSG91 or Naarad can be configured and enabled to send SMS.
 
 Twilio
 ^^^^^^
@@ -88,6 +88,16 @@ You need to configure the following option on the Hasura Project Console:
 
 * **API Key**: Unique identifier obtained from MSG91 Dashboard.
 * **Sender ID**: Sender identification (maximum 6 characters) from which the SMS will be sent.
+
+Naarad
+^^^^^^
+
+Naarad is Hasura's own SMS Gateway Service. With Naarad, you can turn your android phone into an SMS Provider for testing Hasura auth. The workflow is as follows:
+
+* Install the Hasura-SMS-Gateway app and login with Hasura. This will auto register your device with Naarad.
+* Once your device is registered with Naarad, you can find your Naarad key `here <https://dashboard.hasura-stg.hasura-app.io/settings>`_ .
+* Copy the Naarad key in Notify while enabling Naarad.
+* You are set. Everytime an OTP is to be sent, it will be sent through your android phone. 
 
 API Reference
 -------------
