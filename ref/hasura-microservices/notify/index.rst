@@ -94,7 +94,7 @@ Hasura-SMS-Gateway
 
 With Hasura-SMS-Gateway, you can turn your android phone into an SMS Provider for testing Hasura auth. The workflow is as follows:
 
-* Install the Hasura-SMS-Gateway app and login with Hasura. This will automatically register your device with Hasura-SMS-Gateway.
+* Install the Hasura-SMS-Gateway app from Google Playstore and login with Hasura. This will automatically register your device with Hasura-SMS-Gateway.
 * Once your device is registered, you can find your API key at `Hasura Project Dashboard`_ .
 * Copy the API key in Notify while enabling Hasura-SMS-Gateway.
 * You are set. Everytime an OTP is to be sent, it will be sent through your android phone. 
