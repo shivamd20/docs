@@ -126,3 +126,45 @@ You will then be prompted to pick from a list of VM instance types offered by Go
 This is the final step in creating a Hasura project - once you have selected the right instance type, you may click on the `Create Project` button. 
 
 And that's it! In just a few minutes, you will have a spanking new Hasura project on your own Google Cloud infrastructure.
+
+Step-4: Setting up hasuractl for your GCP Project
+-------------------------------------------------
+
+Once you have your Hasura project on GCP, you can set up
+:doc:`../../ref/cli/hasuractl` for your project to easily deploy your apps.
+
+To do so, install hasuractl using the instructions at
+:doc:`../../ref/cli/hasuractl`.
+
+To set the hasuractl context, you first need to run 
+
+.. code:: console
+
+    $ gcloud container clusters get-credentials <gcp-cluster-name> --project hasura-project
+
+
+(You might have to add a -z <zone> to this command if your cluster is not your
+default zone).
+
+To run this command, you'll need `gcloud <https://cloud.google.com/sdk/docs/#install_the_latest_cloud_tools_version_cloudsdk_current_version>`_ 
+
+You will also need to know the GCP cluster that was created on your
+account, you can check that as shown in the image below.
+
+.. image:: ../img/gcp-k8s-cluster-name.png
+
+Or you can get the full command by clicking the connect button shown beside
+your cluster name as shown in the picture above.
+This will then show you the full gcloud command to run to get credentials
+
+.. image:: ../img/gcp-get-creds-command.png
+
+Now we set the context using
+
+.. code :: console
+
+    $ hasuractl set-context `kubectl config current-context`
+
+
+This should set the hasuractl context, setting up everything necessary for you
+to `Deploy your webapp <https://docs.hasura.io/0.14/manual/deploying-webapp/index.html>`_ .
