@@ -1,24 +1,21 @@
 :orphan:
 
 .. meta::
-   :description: A guide to getting started with a Python(Flask) app on Hasura
-   :keywords: hasura, guide, python, flask, getting started
-   :content-tags: getting started, python, flask
+   :description: A guide to getting started with a nodejs-express app on Hasura
+   :keywords: hasura, guide, nodejs, express, getting started
+   :content-tags: getting started, nodejs, express
 
-.. title:: Deploy a Python (Flask) application on Hasura
+.. title:: Deploy a nodejs (Express) application on Hasura
 
 .. rst-class:: guide-title
-.. rubric:: Deploy a Python (Flask) app on Hasura
-
-.. role:: python(code)
-   :language: python
+.. rubric:: Deploy a nodejs (Express) app on Hasura
 
 Introduction
 ------------
 
-This tutorial will help you build and deploy a Python app using Flask and Hasura in minutes.
+This tutorial will help you build and deploy a nodejs app using Express and Hasura in minutes.
 
-Benefits of using Hasura to deploy your Flask app:
+Benefits of using Hasura to deploy your nodejs app:
 
 * Easy deployment with ``git push hasura master``
 * Pre-configured Postgres that can be easily used through Data/Auth APIs.
@@ -95,6 +92,8 @@ Once you're in the directory you want to use for your project, create a free Has
 .. code:: bash
    $ hasuractl init --type=trial
 
+Make a note of the cluster name it displays at the end of the command, say cluster-name.
+
 This command will
 
 * Create the follwing directories in your project folder:
@@ -119,7 +118,7 @@ Once this is done, you can open the Hasura console with:
 
    $ hasuractl api-console
 
-Explore the console and try out the various Hasura APIs at the API Explorer!
+Explore the console, and try out the various Hasura APIs at the API Explorer!
 
 Before moving on, let's initialize a git repository in our project folder in order to maintain version control, and to easily deploy using git push.
 
@@ -127,38 +126,35 @@ Before moving on, let's initialize a git repository in our project folder in ord
 
    $ git init
 
-When you're ready to deploy your python app, move on to the next section.
+When you're ready to deploy your nodejs app, move on to the next section.
 
 Deploy your app
 ---------------
 
-In this section, we'll deploy a sample hello-world Flask app on Hasura.
+In this section, we'll deploy a sample hello-world nodejs-express app on Hasura.
 
-     If you already have an existing Flask project that you wish to deploy on Hasura, you can read through this section to get an idea of what happens, and then check out the next section for instructions on deploying your app.
+     If you already have an existing Express project that you wish to deploy on Hasura, you can read through this section to get an idea of what happens, and then check out the next section for instructions on deploying your app.
 
-Use the following command to quickly add a sample(called app-name) Python app built on Flask and set it up for deployment:
+Use the following command to quickly add a sample(called app-name) nodejs app built on Express and set it up for deployment:
 
 .. code:: bash
 
-   $ hasuractl service quickstart app-name --template python-flask
+   $ hasuractl service quickstart app-name --template nodejs-express
 
 This command will do the following:
 
-* Create a folder called app-name inside the services directory and initialize it with a sample python-flask app
+* Create a folder called app-name inside the services directory and initialize it with a sample nodejs-express app
 
 .. code::
 
-    .
-    ├── Dockerfile
-    ├── README.md
-    ├── app
-    │   ├── conf
-    │   │   └── gunicorn_config.py
-    │   └── src
-    │       ├── __init__.py
-    │       ├── requirements.txt
-    │       └── server.py
-    └── docker-config.yaml
+  .
+  ├── Dockerfile
+  ├── README.md
+  ├── app
+  │   └── src
+  │       ├── package.json
+  │       └── server.js
+  └── docker-config.yaml
 
 * Configure your Hasura cluster to add a service for your app
 
@@ -172,7 +168,7 @@ Once you have the quickstart directory ready, you should add and commit your cod
 
    $ git add . && git commit -m "Initialized"
 
-Now deploy your sample python-flask app in one step using
+Now deploy your sample nodejs-express app in one step using
 
 .. code:: bash
 
@@ -182,25 +178,22 @@ Now check your app live at `https://app-name.cluster-name.hasura-app.io <`https:
 
 This command will push your sample app to a git remote on your Hasura cluster, which then builds a Docker image out of it using the Dockerfile in the services/app-name folder, and put it up live at a subdomain on your cluster.
 
-Deploy an existing Flask app on Hasura
+Deploy an existing nodejs app on Hasura
 --------------------------------------
 
 If you went through the previous section, you might recall the various things the ``hasuractl quickstart`` command did in order to set up your Hasura project for easy deployment:
 
 .. code::
 
-  * Create a folder called app-name inside the services directory and initialize it with a sample python-flask app
+  * Create a folder called app-name inside the services directory and initialize it with a sample nodejs-express app
 
       .
-      ├── Dockerfile
-      ├── README.md
+      ├── dockerfile
+      ├── readme.md
       ├── app
-      │   ├── conf
-      │   │   └── gunicorn_config.py
       │   └── src
-      │       ├── __init__.py
-      │       ├── requirements.txt
-      │       └── server.py
+      │       ├── package.json
+      │       └── server.js
       └── docker-config.yaml
 
   * Configure your Hasura cluster to add a service for your app
@@ -225,16 +218,14 @@ We will structure our code to look like:
 
 .. code::
 
-  services
-  └── app-name
-      ├── Dockerfile
-      └── app
-          ├── conf
-          │   └── gunicorn_config.py
-          └── src
-              ├── __init__.py
-              ├── requirements.txt
-              └── server.py
+  .
+  ├── dockerfile
+  ├── readme.md
+  ├── app
+  │   └── src
+  │       ├── package.json
+  │       └── server.js
+  └── docker-config.yaml
 
 We will place our app source code in the services/app-name/app/src folder.
 
@@ -265,70 +256,47 @@ Copy the following and paste it in the services/app-name/Dockerfile file.
 
 .. code::
 
-  FROM python:3.5.2-alpine
+  FROM mhart/alpine-node:7.6.0
 
-  WORKDIR /usr/src/app
+  WORKDIR /src
 
-  # install requirements
-  # this way when you build you won't need to install again
+  # Add package.json
+  ADD app/src/package.json /src/package.json
 
-  COPY app/src/requirements.txt /tmp/requirements.txt
-  RUN pip3 install -r /tmp/requirements.txt
+  #install node modules
+  RUN npm install
 
-  COPY app /usr/src/app
+  #Add the source code
+  ADD app/src /src
 
-  # App port number is configured through the gunicorn config file
-  CMD ["gunicorn", "--config", "./conf/gunicorn_config.py", "src:app"]
+  CMD ["node", "server.js"]
 
-
-Let's also create the conf/gunicorn_config.py file and paste the follwing into it:
-
-.. code:: python
-
-  import os
-  import multiprocessing
-
-  bind = "0.0.0.0:8080"
-  workers = (multiprocessing.cpu_count() * 2) + 1
-  accesslog = "-"
-  access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
-  loglevel = "debug"
-  capture_output = True
-  enable_stdio_inheritance = True
-
-This is a basic configuration file for our gunicorn server that
-runs on 0.0.0.0 (the server) on port 8080 (Default Hasura port for
-custom services)
-
-``gunicorn``, which is now running from the WORKDIR (/usr/src/app, if you remember
-from earlier in the Dockerfile), is expecting your __init__.py directory at src/__init__.py.
-You can change this by changing the app module (the "src:app" part in the CMD command in the Dockerfile).
-
-( Don't forget to add gunicorn to your requirements.txt file!)
+This Dockerfile builds the src from app-name/app/src directory, and installs npm modules from the app-name/app/src/package.json
 
 Step 2: Setting up your project source code
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Now we'll initalize a Flask app in the src directory using an __init__.py file.
+Now we'll initalize a nodejs-express app in the src directory using a package.json file.
 
-Put the following code in the services/app-name/app/src/__init__.py file:
-
-.. code::
-
-  from flask import flask
-
-  app = flask(__name__)
-
-  from .server import *
-
-With this, the src folder can now be imported as a module, so place all your source code inside this folder.
-
-In your main Flask app initialization file (say server.py) , instead of importing flask and setting :python:`app = flask(__name__)`, just import the
-src package you created using:
+Put the following code in the services/app-name/app/src/package.json file:
 
 .. code::
 
-   from src import app
+  {
+    "name": "quickstart-docker-express-example",
+    "version": "1.0.0",
+    "description": "Demo to show git push build and deploy",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "express": "^4.14.0"
+    }
+  }
+
+Now add your server.js file here, which contains your main express code.
 
 After all this, our services directory now looks like:
 
@@ -338,12 +306,9 @@ After all this, our services directory now looks like:
   └── app-name
       ├── Dockerfile
       └── app
-          ├── conf
-          │   └── gunicorn_config.py
           └── src
-              ├── __init__.py
-              ├── requirements.txt
-              ├── server.py
+              ├── package.json
+              ├── server.js
               ├── .....
               └── .....
 
@@ -352,13 +317,20 @@ With this, our project is now ready to get deployed.
 Before we do anything however, let's test it locally to ensure
 that it is properly configured.
 
+Also remember to add a .gitignore file in the src directory
+
+.. code::
+
+   node_modules
+
 From inside the src directory, run
 
 .. code:: bash
 
-   $ FLASK_APP=__init__.py flask run
+   $ npm install
+   $ npm start
 
-This should run your flask app locally at `127.0.0.1:5000 <http://127.0.0.1:5000/>`_
+This should run your nodejs app locally at `127.0.0.1:8080 <http://127.0.0.1:8080/>`_
 Check that it works fine, and now let's get on to the next step!
 
 Step 3: Configuring the Hasura project
@@ -421,7 +393,6 @@ Once this is done, we've finished configuring our app, so let's deploy it!
 Step 7: Deploying the app
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-
 First we add and commit our code from the main Hasura project directory (where we did a ``git init`` earlier) :
 
 .. code:: bash
@@ -441,17 +412,19 @@ This command will push your sample app to a git remote on your Hasura cluster, w
 
 Run your app locally
 --------------------
+
 If you're using the sample app we created earlier, you can
 just run it locally from the services/app-name/app/src folder using
 
 .. code:: bash
 
-   $ FLASK_APP=__init__.py flask run
+   $ npm install
+   $ npm start
 
-This should run your flask app locally at `127.0.0.1:5000 <http://127.0.0.1:5000/>`_
+This should run your nodejs app locally at `127.0.0.1:8080 <http://127.0.0.1:8080/>`_
 
 If you want to run your own app in the hasura service directory locally,
-follow the instructions in Step 2 of the `Deploy your existing Flask app on Hasura` section above.
+follow the instructions in Step 2 of the `Deploy your existing nodejs app on Hasura` section above.
 
 Writing your own custom Dockerfile
 ----------------------------------
@@ -460,63 +433,61 @@ Let's start by looking at a sample Dockerfile.
 
 .. code::
 
-  FROM python:3.5.2-alpine
+  FROM mhart/alpine-node:7.6.0
 
-  WORKDIR /usr/src/app
+  WORKDIR /src
 
-  # install requirements
-  # this way when you build you won't need to install again
+  # Add package.json
+  ADD app/src/package.json /src/package.json
 
-  COPY app/src/requirements.txt /tmp/requirements.txt
-  RUN pip3 install -r /tmp/requirements.txt
+  #install node modules
+  RUN npm install
 
-  COPY app /usr/src/app
+  #Add the source code
+  ADD app/src /src
 
-  # App port number is configured through the gunicorn config file
-  CMD ["gunicorn", "--config", "./conf/gunicorn_config.py", "src:app"]
+  CMD ["node", "server.js"]
 
 Let's go through this step by step to understand what it does, and how it can be modified.
 
 .. code::
 
-   FROM python:3.5.2-alpine
+  FROM mhart/alpine-node:7.6.0
 
-This line tells Docker to pull the 3.5.2-alpine base image from
-the python repository on Dockerhub.
+This line tells Docker to pull the alpine-node:7.6.0 base image from
+the mhart repository on Dockerhub.
 
 .. code::
 
-  WORKDIR /usr/src/app
+  WORKDIR /src
 
-  # install requirements
-  # this way when you build you won't need to install again
-  # and since COPY is cached we don't need to wait
-  COPY app/src/requirements.txt /tmp/requirements.txt
-  RUN pip3 install -r /tmp/requirements.txt
+  # Add package.json
+  ADD app/src/package.json /src/package.json
+
+  #install node modules
+  RUN npm install
 
 The WORKDIR command sets the current working directory for the RUN commands
 in the Dockerfile. In this case, we are going to deploy our app from the
-/usr/src/app folder of our Dockerfile. This is unrelated to the corresponding
+/src folder of our Dockerfile. This is unrelated to the corresponding
 directory on your computer.
 
-The COPY command above picks up the requirements.txt from the src
-and puts it in /tmp, and the RUN command uses pip to install all the
+The ADD command above picks up the requirements.txt from the src
+and puts it in /src, and the RUN command uses npm to install all the
 dependencies for your project.
 
-If your requirements.txt is at a different location in the services/app-name/app folder,
-you can edit the COPY command to point it to the right location.
+If your package.json is at a different location in the services/app-name/app folder,
+you can edit the ADD command to point it to the right location.
 
 .. code::
 
-  COPY app /usr/src/app
+  #Add the source code
+  ADD app/src /src
 
-  # App port number is configured through the gunicorn config file
-  CMD ["gunicorn", "--config", "./conf/gunicorn_config.py", "src:app"]
+  CMD ["node", "server.js"]
 
-Now we COPY our source code to the /usr/src/app directory of the Docker image,
-and use our gunicorn to run our Flask server on the container, which will
-start listening as per the gunicorn_config.py file.
-( Check out Step 1 of the `Deploying an existing Flask app on Hasura` section for a sample gunicorn_config.py file)
+Now we ADD our source code to the /src directory of the Docker image,
+and use our npm to run our nodejs server on the container.
 
 Working with a frontend
 -----------------------
@@ -525,61 +496,66 @@ Hasura makes working with a frontend very easy with its various Data, Auth and F
 These APIs are designed to be directly called from the frontend via JSON requests, so that
 you can avoid writing boilerplate authentication or data access code in your backend.
 
-As for adding a frontend to your flask app, you can just add it to your source code as
-you would for a normal Flask app, and deploy using the instructions above.
+As for adding a frontend to your nodejs app, you can just add it to your source code as
+you would for a normal nodejs app, and deploy using the instructions above.
 You can check out the `Hasura manual <https://docs.hasura.io/0.14/manual/index.html>`_ for more info on integrating with a frontend.
 
 Performing Data Operations
 --------------------------
 
 To access data from the frontend, you can directly contact the Hasura APIs with JSON requests, instead of
-making a request to your flask app and then communicating with the Data APIs.
+making a request to your nodejs backend and then communicating with the Data APIs.
 
-To query the Data APIs from your Flask app however, it is as easy as making a query to the internal data endpoint using requests.
+To query the Data APIs from your nodejs backend however, it is as easy as making a query to the internal data endpoint using fetch.
 
 To learn more about the Data APIs, check out the `Hasura manual <https://docs.hasura.io/0.14/manual/index.html>`_
+
+First install the node-fetch module:
+
+.. code:: bash
+
+   $ npm install --save node-fetch
+
+This will also add it your package.json so that it works as a dependency.
 
 You can make requests to either the external or the internal endpoints.
 
 .. code:: bash
 
-  import requests
-  import json
+  var fetch =  require('fetch');
 
-  dataUrl = "https://data.cluster-name.hasura-app.io/v1/query" # Replace cluster name with your cluster
-  # To make requests to the internal data endpoint
-  # dataUrl = "http://data.hasura/v1/query"
-  query = {
-      "type": "select",
-      "args": {
-          "table": "authors",
-          "columns": [
-              "*"
-          ]
+  var url = "https://data.cluster-name.hasura-app.io/v1/query"; // Replace cluster-name with your cluster
+
+  var requestOptions = {
+      "method": "POST",
+      "headers": {
+          "Authorization": "Bearer <Admin-Token>",
+          "Content-Type": "application/json"
+      },
+      "body": {
+          "type": "select",
+          "args": {
+              "table": "authors",
+              "columns": [
+                  "*"
+              ]
+          }
       }
-  }
+  };
 
-  headers = { "Content-Type":"application/json","Authorization":"Bearer <Your admin token here>"}
-  # For the internal endpoint, headers should be
-  # headers = { "Content-Type":"application/json", "X-Hasura-User-Id":"1", "X-Hasura-Role":"admin"}
-  # The internal endpoint does not need an auth token, so it is usually preferred. But it can only
-  # be accessed from inside the project.
-
-  response = requests.post( dataUrl, data=json.dumps(query), headers = headers)
-
-  print(response.text)
-  # This will contain a table does not exist error if the authors table does not exist
-  # A json response with a list of author objects if the table exists
-
-  # Sample response with name and id columns
-  #  u'[{"name":"Alice Cooper","id":1}, \n {"name":"John Smith","id":2}]'
-
-  authorList = json.loads(response.text)
-  author1 = authorList[0]['name']
-  print(author1)    # Prints "Alice Cooper"
+  fetch(url, requestOptions)
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(result) {
+    console.log(result);
+  })
+  .catch(function(error) {
+    console.log('Request Failed:' + error);
+  });
 
 
-You can use this to make any requests to the Data APIs from your Flask app.
+You can use this to make any requests to the Data APIs from your nodejs app.
 
 Implementing Auth
 -----------------
@@ -600,14 +576,14 @@ To check if a user is logged in, and to get his hasura_id, you can do the follow
 
 .. code::
 
-   from flask import request
+   req.get('X-Hasura-User-Id') // If not anonymous, User is logged in.
 
-   if request.headers['X-Hasura-Role'] != 'anonymous':
-       print("User is logged in!")
-       print("User id is %s" % request.headers['X-Hasura-User-Id']) # Prints the hasura_id of the user
-   else:
-       print("User is not logged in")
-
+   if( req.get('X-Hasura-Role') != 'anonymous'){
+       console.log('User is logged in!');
+       console.log(req.get('X-Hasura-User-Id'));
+   } else {
+       console.log('User is not logged in.');
+   }
 
 This makes authentication extremely simple.
 For more information on using the Hasura Auth APIs, check the  `Hasura manual <https://docs.hasura.io/0.14/manual/index.html>`_ .
