@@ -8,6 +8,7 @@
 .. title:: Deploy an ASP.Net Core (C#) application on Hasura
 
 .. rst-class:: guide-title
+
 .. rubric:: Deploy an ASP.Net Core app
 
 .. role:: charp(code)
@@ -110,7 +111,7 @@ Once this is done, you can open the Hasura console with:
 
 .. code:: bash
 
-   $ hasuractl console -c cluster-name
+   $ hasuractl api-console -c cluster-name
 
 Explore the console, and try out the various Hasura APIs at the API Explorer!
 
@@ -149,7 +150,7 @@ Once you have the quickstart directory ready, you should add and commit your cod
 
 .. code:: bash
 
-   $ git add . && git commit -m "Initialized hello workl"
+   $ git add . && git commit -m "Initialized hello world"
 
 Now deploy your sample app in one step using
 
@@ -163,4 +164,5 @@ Now check your app live at `https://app-name.cluster-name.hasura-app.io <`https:
 
 Deploy an existing app on Hasura
 --------------------------------
+
 While we are working on adding more instructions to help you deploy your existing ASP.Net app, please get in touch with us at https://hasura.io/help if you need any help with this.
