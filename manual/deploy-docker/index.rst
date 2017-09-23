@@ -13,19 +13,11 @@ If the service needed to be run has a ``docker`` image, Hasura provides an easy 
 
 **Example: Adding a custom database browser (adminer) using its Docker image**
 
-The adminer docker image is available as `clue/adminer <https://hub.docker.com/r/clue/adminer/>`_.
+.. code:: bash
 
-| Docker based services are created using the project console.
-| Navigate to: ``Project Console -> Custom Microservice -> Docker -> Create New.``
+   $ hasuractl service add adminer -c hasura -i clue/adminer -p 80
 
-Here is a reference image for the page we land on:
-
-.. image:: ../../img/deploy-docker.png
-   :scale: 50%
-
-
-Just add the name of the service (say adminer), the docker image (viz. clue/adminer) and hit ``Create``. That's all you need to do.
-If you head to ``https://adminer.<project-name>.hasura-app.io`` you'll see the familiar ``adminer`` UI.
+This will create a service called adminer that will pull the clue/adminer docker image and serve it on port 80 of https://adminer.cluster-name.hasura-app.io
 
 .. admonition:: Automatic SSL certificates
 
