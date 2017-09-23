@@ -13,7 +13,7 @@
 Getting started with React Native
 ---------------------------------
 
-This section provides a quick start guide to start building a mobile application using React Native. We will use React Native, Expo and Hasura to run a fully functional To-Do application. The entire guide is available in the form a short video. It is recommended that you watch the video and use this guide as a reference.
+This section provides a start guide for start building a mobile application using React Native. We will use React Native, Expo and Hasura to run a fully functional To-Do application.
 
 If you already have a working React Native application and want to integrate your application with a Hasura back-end, please move on to the next section.
 
@@ -26,7 +26,7 @@ Setting up the Expo Development Environment (XDE)
 
 3. Login. Register if you don't have an account.
 
-4. Install "Expo" on your phone from AppStore/Playstore.
+4. Install *Expo* on your phone from AppStore/Playstore.
 
 Getting the app running
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -34,11 +34,13 @@ Getting the app running
 1. Clone `this <https://github.com/hasura/expo-hasura.git>`_ git repository.
 
 .. code:: bash
+
     $ git clone https://github.com/hasura/expo-hasura.git
 
 2. Enter the app directory and install the dependencies.
 
 .. code:: bash
+
     $ cd expo-hasura
     $ npm install
 
@@ -70,7 +72,9 @@ Creating a Cluster
 *Linux:*
 
 .. code:: bash
+
     $ curl -Lo hasuractl https://storage.googleapis.com/hasuractl/latest/linux-amd64/hasuractl && chmod +x hasuractl && sudo mv hasuractl /usr/local/bin/
+
 
 *Windows:*
 
@@ -111,23 +115,21 @@ Adding Authentication
 
 The Hasura Auth API is a handy way to include authentication in your application. Tasks such as login, signup, session management are exceptionally easy. There is no need to manage the users in database. The API does all the work for you.
 
-**Note**: If you are coming from the "Getting started with React Native" guide, this part has already been implemented for you in the app.
+**Note**: If you are coming from the *Getting started with React Native* guide, this part has already been implemented for you in the app.
 
 1. The code snippet below shows how to make a signup request. This will create a new user and return an access token and a user_id. You can store these on the device to make further queries.
 
 .. code:: javascript
+
     async function trySignup(inUsername, inPassword){
-      let response = await fetchUrl("https://auth.<cluster-name>.hasura-app.io/v2/signup", {
+      let response = await fetchUrl("https://auth.<cluster-name>.hasura-app.io/signup", {
         method: 'POST',
         headers: {
           'content-type': 'application/json'
         },
         body: JSON.stringify({
-          provider: 'username',
-          data:{
-            username: inUsername,
-            password: inPassword,
-          }
+          username: inUsername,
+          password: inPassword,
         })
       });
       return response;
@@ -136,18 +138,16 @@ The Hasura Auth API is a handy way to include authentication in your application
 2. To make a login request, use the following method. This will login the user and return an access token and the user_id of the user that logged in.
 
 .. code:: javascript
+
     async function trySignup(inUsername, inPassword){
-      let response = await fetchUrl("https://auth.<cluster-name>.hasura-app.io/v2/login", {
+      let response = await fetchUrl("https://auth.<cluster-name>.hasura-app.io/login", {
         method: 'POST',
         headers: {
           'content-type': 'application/json'
         },
         body: JSON.stringify({
-          provider: 'username',
-          data:{
-            username: inUsername,
-            password: inPassword,
-          }
+          username: inUsername,
+          password: inPassword,
         })
       });
       return response;
@@ -156,6 +156,7 @@ The Hasura Auth API is a handy way to include authentication in your application
 3. To obtain the access token and id from the login/signup response, use the following snippet.
 
 .. code:: javascript
+
     var response = await tryLogin(username, password);
     var respJson = response.json();
     var accessToken = respJson.auth_token;
@@ -164,9 +165,10 @@ The Hasura Auth API is a handy way to include authentication in your application
 4. Logout. While logging out, make sure you delete the access token and user_id from wherever you are storing it on the device.
 
 .. code:: javascript
+
     async function tryLogout(accessToken){
-      await fetchUrl("https://auth.<cluster-name>.hasura-app.io/v2/user/logout", {
-        method: 'POST',
+      await fetchUrl("https://auth.<cluster-name>.hasura-app.io/user/logout", {
+        method: 'GET',
         headers: {
           'Authorization': 'Bearer '+accessToken
         },
@@ -201,6 +203,7 @@ Data Queries
 1. Lets start by inserting an element in the ``todo`` table that we created in last section. Let us add a task with ``name = "To hack"``, ``completed = flase``, ``user_id = 4``.
 
 .. code:: javascript
+
     export async function insertQuery(accessToken, my_user_id){
       let response = await fetchUrl('https://data.<cluster-name>.hasura-app.io/v1/query', {
         method: 'POST',
@@ -225,6 +228,7 @@ Data Queries
 2. If you want to select all the tasks added by you, you can run a select query by the following function.
 
 .. code:: javascript
+
     export async function insertTodoToDB(accessToken, my_user_id){
       let response = await fetchUrl('https://data.<cluster-name>.hasura-app.io/v1/query', {
         method: 'POST',
@@ -248,6 +252,7 @@ Data Queries
 The response is a JSON Array with all the entries where ``user_id = my_user_id``. For example:
 
 .. code:: json
+
     [
       {
         "name": "To Hack",
@@ -269,9 +274,9 @@ The response is a JSON Array with all the entries where ``user_id = my_user_id``
       }
     ]
 
-3. You can make numerous such queries, exploit relationships, manage permissions. Go to API Explorer on your console, and search for a query you wish to make. It will generate the entire request body for you. Also, read more about managing data  at `here <https://docs.hasura.io/0.14/manual/data/index.html>`_.
+3. You can make numerous such queries, exploit relationships, manage permissions and a lot more complicated stuff. Go to API Explorer on your console, and search for a query you wish to make. It will generate the entire request body for you. Also, read more about managing data  at `here <https://docs.hasura.io/0.15/manual/data/index.html>`_.
 
 Custom API Endpoints
 ^^^^^^^^^^^^^^^^^^^^
 
-If you have a backend server ready and you are looking for a place to deploy your code, it is exceptionally easy to deploy custom APIs on Hasura. It is hardly a 10 minute job. Go on and read the `reference manual <https://docs.hasura.io/0.14/manual/deploying-webapp/index.html#deploy-webapp>`_.
+If you have a backend server ready and you are looking for a place to deploy your code, it is exceptionally easy to deploy custom APIs on Hasura. It is hardly a 10 minute job. Go on and read the `reference manual <https://docs.hasura.io/0.15/manual/deploying-webapp/index.html#deploy-webapp>`_.
