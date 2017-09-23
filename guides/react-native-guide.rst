@@ -114,6 +114,12 @@ if you need help with the installation on Windows.
 
     $ hasuractl cluster add <cluster-name> -c my-cluster
 
+6. If you are coming from the *Getting started to react native* guide. Modify the cluster name in ``hasuraAPI.js`` file.
+
+.. code:: javascript
+
+    const CLUSTER_NAME = <cluster-name>
+
 Adding Authentication
 ^^^^^^^^^^^^^^^^^^^^^
 
@@ -280,6 +286,8 @@ The response is a JSON Array with all the entries where ``user_id = my_user_id``
     ]
 
 3. You can make numerous such queries, exploit relationships, manage permissions and a lot more complicated stuff. Go to API Explorer on your console, and search for a query you wish to make. It will generate the entire request body for you. Also, read more about managing data  at `here <https://docs.hasura.io/0.15/manual/data/index.html>`_.
+
+4. Your react native app with Hasura back-end is ready. Modify as you like. Happy hacking.
 
 Custom API Endpoints
 ^^^^^^^^^^^^^^^^^^^^
