@@ -48,33 +48,31 @@ Getting the app running
 
 5. Click on the ``Share`` button on the XDE. Scan this QR code from your Expo app on the phone.
 
-The app will open on your phone. However, in order to use Login and be able to make data queries, you need to integrate your app with Hasura. Jump to "Integrating with Hasura" to quickly get it ready.
+The app will open on your phone. However, in order to use login and be able to make data queries, you need to integrate your app with Hasura. Jump to "Integrating with Hasura" to quickly get it ready.
 
 Making the app public
 ^^^^^^^^^^^^^^^^^^^^^
 
-When you share the app using the QR code, you can only open the app if the phone is on the same connection as that of your computer. In order to make your app accessible from everywhere, click on the ``Publish`` button on the XDE. Now everybody in the world can open the app as long as they have the QR code and the Expo app.
+When you share the app using the QR code, you can open the app only if the phone is on the same connection as that of your computer. In order to make your app accessible from everywhere, click on the ``Publish`` button on the XDE. Now everybody in the world can open the app as long as they have the QR code and the Expo app.
 
 To know more about Expo, go to the `expo docs <https://docs.expo.io/versions/latest/index.html>`_.
 
 Integrating a pre-existing app with Hasura
 ------------------------------------------
 
-Hasura provides an easy way to build backends for applications. It is easy to set up, configure and access. Follow these steps to itegrate a Hasura backend with your application.
+Hasura provides an easy way to build powerful backends for applications. They are easy to set up, configure and access. Follow these steps to itegrate a Hasura backend with your application.
 
 Creating a Cluster
 ^^^^^^^^^^^^^^^^^^
 
 1. Install ``hasuractl``.
 
-Linux
-~~~~~
+*Linux:*
 
 .. code:: bash
     $ curl -Lo hasuractl https://storage.googleapis.com/hasuractl/latest/linux-amd64/hasuractl && chmod +x hasuractl && sudo mv hasuractl /usr/local/bin/
 
-Windows
-~~~~~~~
+*Windows:*
 
 Download `hasuractl.exe <https://storage.googleapis.com/hasuractl/latest/windows-amd64/hasuractl.exe>`_.
 and place it in your ``PATH``. Refer to this `video <https://drive.google.com/file/d/0B_G1GgYOqazYUDJFcVhmNHE1UnM/view>`_
@@ -82,8 +80,7 @@ if you need help with the installation on Windows.
 
     In Windows, you should only use ``git-bash`` to execute commands that you see in this documentation.
 
-Mac OS
-~~~~~~
+*Mac OS:*
 
 .. code:: bash
 
@@ -94,7 +91,7 @@ Mac OS
 .. code:: bash
     $ hasuractl login
 
-3. Make a Hasura Project directory.
+3. Make a Hasura Project directory and initialize the project.
 
 .. code:: bash
     $ mkdir hasura-project && cd hasura-project && hasuractl init
@@ -188,13 +185,15 @@ This section demonstrates adding a table to your database. We will do this by ad
 .. code:: bash
     $ hasuractl console --cluster my-cluster
 
-2. Go to ``Data`` -> ``Add table``
+2. Go to ``Data`` -> ``Add table`` and add the table as shown below.
 
-3. Add the table as shown below.
+.. image:: ../img/guide-react-native-add-table.png
 
-4. Modify the permissions such that users can only access the elements associated with their user id.
+3. Modify the permissions such that users can only access the elements associated with their user id.
 
-5. You are set. Lets see how to make queries on this table.
+.. image:: ../img/guide-react-native-permissions.png
+
+4. You are set. Lets see how to make queries on this table.
 
 Data Queries
 ^^^^^^^^^^^^
@@ -273,6 +272,6 @@ The response is a JSON Array with all the entries where ``user_id = my_user_id``
 3. You can make numerous such queries, exploit relationships, manage permissions. Go to API Explorer on your console, and search for a query you wish to make. It will generate the entire request body for you. Also, read more about managing data  at `here <https://docs.hasura.io/0.14/manual/data/index.html>`_.
 
 Custom API Endpoints
---------------------
+^^^^^^^^^^^^^^^^^^^^
 
 If you have a backend server ready and you are looking for a place to deploy your code, it is exceptionally easy to deploy custom APIs on Hasura. It is hardly a 10 minute job. Go on and read the `reference manual <https://docs.hasura.io/0.14/manual/deploying-webapp/index.html#deploy-webapp>`_.
