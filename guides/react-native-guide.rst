@@ -95,7 +95,7 @@ if you need help with the installation on Windows.
 
     $ hasuractl login
 
-3. Make a Hasura Project directory and initialize the project.
+3. Make a Hasura project directory and initialize the project.
 
 .. code:: bash
 
