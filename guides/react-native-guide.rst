@@ -34,11 +34,13 @@ Getting the app running
 1. Clone `this <https://github.com/hasura/expo-hasura.git>`_ git repository.
 
 .. code:: bash
+
     $ git clone https://github.com/hasura/expo-hasura.git
 
 2. Enter the app directory and install the dependencies.
 
 .. code:: bash
+
     $ cd expo-hasura
     $ npm install
 
@@ -70,6 +72,7 @@ Creating a Cluster
 *Linux:*
 
 .. code:: bash
+
     $ curl -Lo hasuractl https://storage.googleapis.com/hasuractl/latest/linux-amd64/hasuractl && chmod +x hasuractl && sudo mv hasuractl /usr/local/bin/
 
 *Windows:*
@@ -89,21 +92,25 @@ if you need help with the installation on Windows.
 2. Login.
 
 .. code:: bash
+
     $ hasuractl login
 
 3. Make a Hasura Project directory and initialize the project.
 
 .. code:: bash
+
     $ mkdir hasura-project && cd hasura-project && hasuractl init
 
 4. Create a Hasura cluster.
 
 .. code:: bash
+
     $ hasuractl cluster create --type=trial
 
 5. Add the cluster to your project.
 
 .. code:: bash
+
     $ hasuractl cluster add <cluster-name> -c my-cluster
 
 Adding Authentication
@@ -116,6 +123,7 @@ The Hasura Auth API is a handy way to include authentication in your application
 1. The code snippet below shows how to make a signup request. This will create a new user and return an access token and a user_id. You can store these on the device to make further queries.
 
 .. code:: javascript
+
     async function trySignup(inUsername, inPassword){
       let response = await fetchUrl("https://auth.<cluster-name>.hasura-app.io/v2/signup", {
         method: 'POST',
@@ -136,6 +144,7 @@ The Hasura Auth API is a handy way to include authentication in your application
 2. To make a login request, use the following method. This will login the user and return an access token and the user_id of the user that logged in.
 
 .. code:: javascript
+
     async function trySignup(inUsername, inPassword){
       let response = await fetchUrl("https://auth.<cluster-name>.hasura-app.io/v2/login", {
         method: 'POST',
@@ -156,6 +165,7 @@ The Hasura Auth API is a handy way to include authentication in your application
 3. To obtain the access token and id from the login/signup response, use the following snippet.
 
 .. code:: javascript
+
     var response = await tryLogin(username, password);
     var respJson = response.json();
     var accessToken = respJson.auth_token;
@@ -164,6 +174,7 @@ The Hasura Auth API is a handy way to include authentication in your application
 4. Logout. While logging out, make sure you delete the access token and user_id from wherever you are storing it on the device.
 
 .. code:: javascript
+
     async function tryLogout(accessToken){
       await fetchUrl("https://auth.<cluster-name>.hasura-app.io/v2/user/logout", {
         method: 'POST',
@@ -183,6 +194,7 @@ This section demonstrates adding a table to your database. We will do this by ad
 1. Open the console. This will open in a browser.
 
 .. code:: bash
+
     $ hasuractl console --cluster my-cluster
 
 2. Go to ``Data`` -> ``Add table`` and add the table as shown below.
@@ -201,6 +213,7 @@ Data Queries
 1. Lets start by inserting an element in the ``todo`` table that we created in last section. Let us add a task with ``name = "To hack"``, ``completed = flase``, ``user_id = 4``.
 
 .. code:: javascript
+
     export async function insertQuery(accessToken, my_user_id){
       let response = await fetchUrl('https://data.<cluster-name>.hasura-app.io/v1/query', {
         method: 'POST',
@@ -225,6 +238,7 @@ Data Queries
 2. If you want to select all the tasks added by you, you can run a select query by the following function.
 
 .. code:: javascript
+
     export async function insertTodoToDB(accessToken, my_user_id){
       let response = await fetchUrl('https://data.<cluster-name>.hasura-app.io/v1/query', {
         method: 'POST',
@@ -248,6 +262,7 @@ Data Queries
 The response is a JSON Array with all the entries where ``user_id = my_user_id``. For example:
 
 .. code:: json
+
     [
       {
         "name": "To Hack",
