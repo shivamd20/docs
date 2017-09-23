@@ -13,7 +13,7 @@
 Getting started with React Native
 ---------------------------------
 
-This section provides a quick start guide to start building a mobile application using React Native. We will use React Native, Expo and Hasura to run a fully functional To-Do application. The entire guide is available in the form a short video. It is recommended that you watch the video and use this guide as a reference.
+This section provides a starter guide for building a mobile application using React Native. We will use React Native, Expo and Hasura to run a fully functional To-Do application. The entire guide is available in the form a short video. It is recommended that you watch the video and use this guide as a reference.
 
 If you already have a working React Native application and want to integrate your application with a Hasura back-end, please move on to the next section.
 
