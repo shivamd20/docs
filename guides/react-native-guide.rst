@@ -93,21 +93,25 @@ if you need help with the installation on Windows.
 2. Login.
 
 .. code:: bash
+
     $ hasuractl login
 
-3. Make a Hasura Project directory and initialize the project.
+3. Make a Hasura project directory and initialize the project.
 
 .. code:: bash
+
     $ mkdir hasura-project && cd hasura-project && hasuractl init
 
 4. Create a Hasura cluster.
 
 .. code:: bash
+
     $ hasuractl cluster create --type=trial
 
 5. Add the cluster to your project.
 
 .. code:: bash
+
     $ hasuractl cluster add <cluster-name> -c my-cluster
 
 Adding Authentication
@@ -185,6 +189,7 @@ This section demonstrates adding a table to your database. We will do this by ad
 1. Open the console. This will open in a browser.
 
 .. code:: bash
+
     $ hasuractl console --cluster my-cluster
 
 2. Go to ``Data`` -> ``Add table`` and add the table as shown below.
