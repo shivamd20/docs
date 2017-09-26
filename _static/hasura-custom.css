@@ -186,6 +186,19 @@ a.current.reference.internal {
   font-size: 3.2rem;
 }
 
+.rubric.guide-title{
+  margin: 0.6em 0;
+  line-height: 1.1em;
+  font-family: 'Khula';
+  font-weight: 600;
+  color: #788094;
+  font-size: 3.2rem;
+}
+
+.back_link#guides {
+  padding-left: 3% !important;
+}
+
 h3
 {
   font-weight: 500;
@@ -495,6 +508,9 @@ p
   width: 90%;
   margin: 0 auto;
 }
+.header_wrapper .header_main .header_main_logo a{
+  display: inherit;
+}
 .header_wrapper .header_main a
 {
   text-decoration: none;
@@ -585,7 +601,6 @@ p
   padding-top: 4px;
   padding-bottom: 4px;
   border-right: 1px solid;
-  margin-right: 10px;
 }
 
 .logo_img {
@@ -602,6 +617,7 @@ p
   vertical-align: middle;
   font-size: 18px;
   font-weight: 600;
+  margin-left: 10px;
 }
 
 .header_buttons {
