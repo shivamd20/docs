@@ -20,9 +20,6 @@ Introduction
 This tutorial will help you build and deploy an ASP.Net Core app using Hasura in minutes.
 To get started, you only need ``git`` installed on your computer.
 
-That's it! You can now go ahead and get started with the next section!
-
-
 Setup
 -----
 
@@ -43,7 +40,7 @@ Deploy a hello-world app
 
 In this section, we'll deploy a sample ASP.Net Core app on Hasura.
 
-     If you already have an existing ASP.Net Core project that you wish to deploy on Hasura, you should read through this section to get an idea of how things work, and then check out the next section for instructions on deploying your existing app.
+     If you already have an existing ASP.Net Core app that you wish to deploy on Hasura, you should read through this section to get an idea of how things work, and then check out the next section for instructions on deploying your existing app.
 
 Use the following command to quickly add a sample hello-world app (*let's call it hello-world*) built on ASP.Net Core and set it up for deployment:
 
