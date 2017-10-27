@@ -81,9 +81,10 @@ Setting up the webhook
 ----------------------
 
 As a user, you are supposed to provide the ``File`` service with a webhook, which is a
-HTTP endpoint running inside the Hasura project.
+HTTP endpoint running inside the Hasura project. By default filestore provides you with three
+webhooks. They are mentioned in the manual.
 
-Which means, you need to write a custom endpoint which receives the above
+If you want to create custom permissions for you files, you need to write a custom endpoint which receives the above
 parameters from the ``File`` service, perform required authorization checks and return
 a response. You can deploy this custom endpoint as a custom service from the
 Hasura project console.
