@@ -1,14 +1,45 @@
 Data permissions
 ================
 
+Let's consider this schema for the rest of this section
+
+.. image:: ../../img/manual/data/default-schema.png
+
 The ``data`` APIs, by default can only be accessed by users with the ``admin`` role. However, we should never include the admin token in any client applications. So, we need to allow access to the ``data`` APIs for roles other than ``admin``. This is handled by the permission layer of the ``data`` APIs, which lets you define row level and column level access control policies for various roles.
 
-What are the typical roles other than ``admin``?
+What are the roles in our medium like application?
 
 #. ``user`` for logged in users
 #. ``anonymous`` for users who haven't logged in.
 
-We need to define permissions on all the tables that we have created so far (where applicable) for ``user`` and ``anonymous`` roles. We can use the data API to create permissions. Continue reading to use the ``data`` API
+We need to define permissions for all the above tables (where applicable) for ``user`` and ``anonymous`` roles. Permissions can be defined by heading to the Permissions section of a table in api-console.
+
+Permissions for article table
+--------
+
+Let's look at the permissions for various roles for the article table.
+
+select
+&&&&&&&
+
+.. list-table::
+   :header-rows: 1
+
+   * -
+     - insert
+     - select
+     - update
+     - delete
+   * - anonymous
+     - not allowed
+     - columns: all, rows:which are published
+     - not allowed
+     - not allowed
+   * - user
+     - if the article belongs to the user making the request
+     - which are published and those written by the user (published or not) making the request
+     - if the article belongs to the user making the request
+     - if the article belongs to the user making the request
 
 Select
 ------

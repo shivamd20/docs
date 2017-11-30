@@ -23,8 +23,8 @@ roles.
   Insert query <insert>
   Delete query <delete>
   Bulk query<bulk>
-  Permissions and access control<permissions>
   Relationships <relationship>
+  Permissions and access control<permissions>
   Altering schema <alter-schema/index>
   Linking auth users to data <linking_users_auth>
   Using SQL directly on data <using-sql>
