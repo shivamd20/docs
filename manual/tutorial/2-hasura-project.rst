@@ -32,7 +32,7 @@ Note, you can clone any project from the hub and use that as a starting point fo
 
 .. admonition:: Note
 
-   ``hasura/hello-world`` is another project that contains a few database
+   `hasura/hello-world <https://hasura.io/hub/project/hasura/hello-world>`_ is another project that contains a few database
    migrations, some sample data and even a sample mircoservice to get started quickly.
 
 Understand the project structure
