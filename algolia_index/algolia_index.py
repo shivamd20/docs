@@ -84,7 +84,13 @@ def docs_index(data_source):
 
     settings = []
     # print (json_d)
-    manage_indexes(index_name, json_d, settings)
+    newJson = []
+
+    for n in json_d:
+        if ( len ( n['content'] ) < 20000 ):
+            newJson.append(n)
+
+    manage_indexes(index_name, newJson, settings)
     read_indexed_data(index_name)
 
 # docs_index('./sample.json')
