@@ -28,7 +28,7 @@ Pre-requisites
         clientSecret: "String"
 
 * Choose your device and Facebook SDK from here:
-  https://developers.google.com/identity/choose-auth
+ https://developers.facebook.com/docs/facebook-login/
 
 
 Web apps
